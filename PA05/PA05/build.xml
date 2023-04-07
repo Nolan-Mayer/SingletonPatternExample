@@ -1,0 +1,40 @@
+<!-- build.xml: Ant build file for chapter 5 PA. -->
+<!-- 02/28/2023 -->
+
+<project name="Logger" default="dist" basedir=".">
+  <description>
+    Ant build file for the chapter 5 singleton logger PA.
+  </description>
+
+  <!-- global properties, especially directory names -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+
+  <target name="clean">
+    <!-- remove build and dist directories -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+
+  <target name="compile">
+    <!-- compile Java source to the build directory -->
+    <mkdir dir="${build}"/>
+    <javac srcdir="${src}" destdir="${build}" includeantruntime="false"/>
+  </target>
+
+  <target name="dist" depends="compile">
+    <!-- make classes into an executable JAR -->
+    <mkdir dir="${dist}"/>
+    <jar destfile="${dist}/Logger.jar" basedir="${build}">
+      <manifest>
+        <attribute name="Main-Class" value="Main"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="run">
+    <!-- execute the default main class of the app -->
+    <java jar="${dist}/Logger.jar" fork="true"/>
+  </target>
+</project>
